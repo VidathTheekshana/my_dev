@@ -4,13 +4,11 @@ import profileImage from '@/assets/vidath-profile.jpg';
 import { useEffect, useRef } from 'react';
 
 const HeroSection = () => {
-  const cardRef = useRef(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const scrollToPortfolio = () => {
     const element = document.querySelector('#portfolio');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
   const stats = [
@@ -20,7 +18,6 @@ const HeroSection = () => {
     { value: '100%', label: 'Client Satisfaction' },
   ];
 
-  // Scroll fade-in effect
   useEffect(() => {
     const sections = document.querySelectorAll('.scroll-fade');
     const observer = new IntersectionObserver(
@@ -32,31 +29,6 @@ const HeroSection = () => {
       { threshold: 0.2 }
     );
     sections.forEach((sec) => observer.observe(sec));
-  }, []);
-
-  // Mouse move 3D tilt effect
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-
-    const handleMouseMove = (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      card.style.transform = `rotateY(${x * 0.05}deg) rotateX(${-y * 0.05}deg) scale(1.05)`;
-    };
-
-    const handleMouseLeave = () => {
-      card.style.transform = `rotateY(0deg) rotateX(0deg) scale(1)`;
-    };
-
-    card.addEventListener('mousemove', handleMouseMove);
-    card.addEventListener('mouseleave', handleMouseLeave);
-
-    return () => {
-      card.removeEventListener('mousemove', handleMouseMove);
-      card.removeEventListener('mouseleave', handleMouseLeave);
-    };
   }, []);
 
   return (
@@ -84,6 +56,7 @@ const HeroSection = () => {
             </p>
           </div>
 
+          {/* Call-to-action Buttons */}
           <div className="fade-in-up animation-delay-200 flex flex-col sm:flex-row items-center gap-4 mb-12 scroll-fade">
             <Button
               onClick={scrollToPortfolio}
@@ -95,22 +68,13 @@ const HeroSection = () => {
             </Button>
 
             <div className="flex items-center gap-4">
-              <a
-                href="mailto:vidaththeekshana@gmail.com"
-                className="icon-hover p-3 rounded-full border border-accent-subtle"
-              >
+              <a href="mailto:vidaththeekshana@gmail.com" className="icon-hover p-3 rounded-full border border-accent-subtle">
                 <Mail className="w-5 h-5" />
               </a>
-              <a
-                href="https://linkedin.com/in/vidath-theekshana"
-                className="icon-hover p-3 rounded-full border border-accent-subtle"
-              >
+              <a href="https://linkedin.com/in/vidath-theekshana" className="icon-hover p-3 rounded-full border border-accent-subtle">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a
-                href="https://github.com/vidaththeekshana"
-                className="icon-hover p-3 rounded-full border border-accent-subtle"
-              >
+              <a href="https://github.com/vidaththeekshana" className="icon-hover p-3 rounded-full border border-accent-subtle">
                 <Github className="w-5 h-5" />
               </a>
             </div>
@@ -131,21 +95,27 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Profile Image */}
-        <div className="fade-in-right animation-delay-200 flex justify-center lg:justify-end scroll-fade">
-          <div
-            ref={cardRef}
-            className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-glow transition-transform duration-300"
-            style={{ perspective: '1000px' }}
-          >
-            <img
-              src={profileImage}
-              alt="Vidath Theekshana - Full-Stack Developer"
-              className="w-full h-full object-cover object-center"
-            />
-            {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-20 h-20 border-2 border-accent-subtle rounded-full opacity-50"></div>
-            <div className="absolute -bottom-4 -left-4 w-16 h-16 border-2 border-accent-subtle rounded-full opacity-30"></div>
+        {/* Advanced Polygon Frame */}
+        <div className="fade-in-right animation-delay-200 flex justify-center lg:justify-end scroll-fade relative">
+          <div className="relative w-80 h-80 lg:w-96 lg:h-96">
+            {/* Background pattern */}
+            <div className="absolute inset-0">
+              <div className="w-full h-full bg-hexagon-pattern opacity-20 animate-breath"></div>
+            </div>
+
+            {/* Polygon / Advanced Frame */}
+            <div className="relative polygon-frame polygon-gradient animate-breath hover-glow overflow-hidden w-full h-full">
+              <img
+                src={profileImage}
+                alt="Vidath Theekshana"
+                className="w-full h-full object-cover object-center clip-polygon"
+              />
+              {/* Holo cinematic layers */}
+              <div className="holo-layer"></div>
+              <div className="holo-layer"></div>
+              {/* Wireframe overlay */}
+              <div className="polygon-wireframe"></div>
+            </div>
           </div>
         </div>
       </div>
