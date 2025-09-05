@@ -47,8 +47,8 @@ const Footer = () => {
           {/* Copyright */}
           <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-accent-subtle">
             <div className="flex items-center gap-2 text-accent-muted text-sm mb-4 sm:mb-0">
-              <span>© 2024 Vidath Theekshana. Made with</span>
-              <Heart className="w-4 h-4 text-red-500 fill-current" />
+              <span>© 2024 Vidath Theekshana. </span>
+             
               <span>and lots of coffee</span>
             </div>
 
