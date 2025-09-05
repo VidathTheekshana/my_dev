@@ -1,7 +1,20 @@
 import { Palette, Code, Smartphone, Globe, Database, Zap } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { useRef, useEffect, useState } from 'react';
 
 const ServicesSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => { if (entries[0].isIntersecting) setIsVisible(true); },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   const services = [
     {
       icon: <Code className="w-8 h-8" />,
@@ -30,12 +43,10 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section id="services" className="py-20 bg-background">
+    <section ref={sectionRef} id="services" className="py-20 bg-background scroll-fade">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gradient">
-            Services
-          </h2>
+        <div className={`text-center mb-16 ${isVisible ? 'visible' : ''}`}>
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-gradient glow-hover">Services</h2>
           <p className="text-accent-muted text-lg max-w-3xl mx-auto">
             Comprehensive development and design services to bring your digital ideas to life
           </p>
@@ -45,30 +56,26 @@ const ServicesSection = () => {
           {services.map((service, index) => (
             <Card 
               key={index}
-              className={`group surface-gradient border-accent-subtle p-8 scale-on-hover fade-in-up animation-delay-${index * 200} relative overflow-hidden`}
+              className={`card-tilt surface-gradient border-accent-subtle p-8 scale-on-hover fade-in-up animation-delay-${index * 200} relative overflow-hidden`}
             >
-              {/* Background Decoration */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-accent-subtle/5 rounded-full -translate-y-10 translate-x-10 group-hover:scale-150 transition-transform duration-500"></div>
-              
-              <div className="relative z-10">
+              <div className="card-tilt-inner relative z-10">
+                {/* Background floating circle */}
+                <div className="absolute top-0 right-0 w-24 h-24 bg-accent-subtle/5 rounded-full -translate-y-10 translate-x-10 group-hover:scale-125 transition-transform duration-500"></div>
+
                 {/* Icon */}
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-lg bg-accent-subtle/10 text-accent mb-6 group-hover:scale-110 transition-transform duration-300">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-lg bg-accent-subtle/10 text-accent mb-6 group-hover:scale-110 glow-hover transition-transform duration-300">
                   {service.icon}
                 </div>
 
                 {/* Content */}
-                <h3 className="text-2xl font-semibold text-accent mb-4">
-                  {service.title}
-                </h3>
-                <p className="text-accent-muted leading-relaxed mb-6">
-                  {service.description}
-                </p>
+                <h3 className="text-2xl font-semibold text-accent mb-4 glow-hover">{service.title}</h3>
+                <p className="text-accent-muted leading-relaxed mb-6">{service.description}</p>
 
                 {/* Features */}
                 <ul className="space-y-2">
                   {service.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center gap-3 text-accent-muted">
-                      <div className="w-1.5 h-1.5 rounded-full bg-accent"></div>
+                    <li key={featureIndex} className="flex items-center gap-3 text-accent-muted hover:text-accent transition-colors duration-300">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></div>
                       <span className="text-sm">{feature}</span>
                     </li>
                   ))}
@@ -81,7 +88,7 @@ const ServicesSection = () => {
         {/* Process Overview */}
         <div className="mt-20">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-accent mb-4">Development Process</h3>
+            <h3 className="text-3xl font-bold text-accent mb-4 glow-hover">Development Process</h3>
             <p className="text-accent-muted max-w-2xl mx-auto">
               A streamlined approach to ensure quality deliverables and client satisfaction
             </p>
@@ -94,11 +101,11 @@ const ServicesSection = () => {
               { step: '03', title: 'Development', desc: 'Building and testing the solution' },
               { step: '04', title: 'Deployment', desc: 'Launching and ongoing maintenance' }
             ].map((phase, index) => (
-              <div key={index} className={`text-center fade-in-up animation-delay-${(index + 4) * 200}`}>
-                <div className="w-16 h-16 rounded-full bg-accent-subtle/10 flex items-center justify-center text-accent font-bold text-lg mx-auto mb-4">
+              <div key={index} className={`text-center fade-in-up animation-delay-${(index + 4) * 200} scale-on-hover card-tilt`}>
+                <div className="card-tilt-inner w-16 h-16 rounded-full bg-accent-subtle/10 flex items-center justify-center text-accent font-bold text-lg mx-auto mb-4 transition-transform duration-300 glow-hover">
                   {phase.step}
                 </div>
-                <h4 className="text-xl font-semibold text-accent mb-2">{phase.title}</h4>
+                <h4 className="text-xl font-semibold text-accent mb-2 glow-hover">{phase.title}</h4>
                 <p className="text-accent-muted text-sm">{phase.desc}</p>
               </div>
             ))}

@@ -2,81 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Portfolio Design System - Modern Black & White Theme */
-
-@layer base {
-  :root {
-    /* Core Colors */
-    --background: 0 0% 8%;
-    --foreground: 0 0% 98%;
-    --surface: 0 0% 12%;
-    --surface-elevated: 0 0% 16%;
-    
-    /* Accent Colors */
-    --accent: 0 0% 98%;
-    --accent-muted: 0 0% 70%;
-    --accent-subtle: 0 0% 25%;
-
-    /* Cards */
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 98%;
-    --card-hover: 0 0% 16%;
-
-    /* Interactive Elements */
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 8%;
-    --primary-hover: 0 0% 90%;
-
-    --secondary: 0 0% 16%;
-    --secondary-foreground: 0 0% 98%;
-    --secondary-hover: 0 0% 20%;
-
-    /* Muted Elements */
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 60%;
-
-    /* Borders & Inputs */
-    --border: 0 0% 20%;
-    --border-subtle: 0 0% 15%;
-    --input: 0 0% 16%;
-    --input-border: 0 0% 25%;
-    --ring: 0 0% 35%;
-
-    /* Status Colors */
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-
-    /* Design Tokens */
-    --radius: 0.75rem;
-    --radius-lg: 1rem;
-    --radius-sm: 0.5rem;
-
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(0 0% 98%), hsl(0 0% 85%));
-    --gradient-surface: linear-gradient(135deg, hsl(0 0% 12%), hsl(0 0% 16%));
-    --gradient-hero: radial-gradient(ellipse at center, hsl(0 0% 12%) 0%, hsl(0 0% 6%) 100%);
-
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1);
-    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1);
-    --shadow-glow: 0 0 40px hsl(0 0% 98% / 0.1);
-
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-  /* Light mode overrides (if needed) */
-  .light {
-    --background: 0 0% 98%;
-    --foreground: 0 0% 8%;
-    --surface: 0 0% 95%;
-    --card: 0 0% 100%;
-    --border: 0 0% 85%;
-  }
-}
-
+/* --- Base Styles --- */
 @layer base {
   * {
     @apply border-border;
@@ -90,40 +16,45 @@
   html {
     scroll-behavior: smooth;
   }
+
+  /* Floating animations for decorative shapes */
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+  }
 }
 
+/* --- Components Enhancements --- */
 @layer components {
   /* Hero Section Styles */
-  .hero-gradient {
-    background: var(--gradient-hero);
-  }
+  .hero-gradient { background: var(--gradient-hero); }
+  .surface-gradient { background: var(--gradient-surface); }
 
-  .surface-gradient {
-    background: var(--gradient-surface);
-  }
+  /* Fade-in Animations */
+  .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+  .fade-in-left { animation: fadeInLeft 0.8s ease-out forwards; }
+  .fade-in-right { animation: fadeInRight 0.8s ease-out forwards; }
 
-  /* Animated Elements */
-  .fade-in-up {
-    animation: fadeInUp 0.8s ease-out forwards;
-  }
-
-  .fade-in-left {
-    animation: fadeInLeft 0.8s ease-out forwards;
-  }
-
-  .fade-in-right {
-    animation: fadeInRight 0.8s ease-out forwards;
-  }
-
+  /* Scale & Glow Hover */
   .scale-on-hover {
     transition: var(--transition-smooth);
   }
-
   .scale-on-hover:hover {
     transform: scale(1.05);
+    box-shadow: var(--shadow-glow);
   }
 
-  /* Text Gradients */
+  /* Gradient Text */
   .text-gradient {
     background: var(--gradient-primary);
     -webkit-background-clip: text;
@@ -137,51 +68,92 @@
     background: hsl(var(--surface) / 0.8);
     border: 1px solid hsl(var(--border) / 0.5);
   }
-}
 
-@layer utilities {
-  .animation-delay-200 {
-    animation-delay: 200ms;
+  /* Buttons Hover Animations */
+  .btn-animated {
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-smooth);
   }
-  
-  .animation-delay-400 {
-    animation-delay: 400ms;
+  .btn-animated::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, hsl(0 0% 98%) 0%, hsl(0 0% 70%) 50%, hsl(0 0% 98%) 100%);
+    transition: all 0.5s;
+    transform: skewX(-20deg);
   }
-  
-  .animation-delay-600 {
-    animation-delay: 600ms;
-  }
-}
+  .btn-animated:hover::before { left: 200%; }
 
-@keyframes fadeInUp {
-  from {
+  /* Social Icons Hover */
+  .icon-hover {
+    transition: var(--transition-smooth);
+    color: hsl(var(--accent-muted));
+  }
+  .icon-hover:hover {
+    color: hsl(var(--accent));
+    transform: scale(1.2) rotate(10deg);
+  }
+
+  /* Card Tilt Parallax */
+  .card-tilt {
+    perspective: 1000px;
+  }
+  .card-tilt-inner {
+    transition: transform 0.4s ease;
+    transform-style: preserve-3d;
+  }
+  .card-tilt:hover .card-tilt-inner {
+    transform: rotateY(10deg) rotateX(5deg);
+  }
+
+  /* Scroll Fade-In */
+  .scroll-fade {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
   }
-  to {
+  .scroll-fade.visible {
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Glow on hover text */
+  .glow-hover:hover {
+    text-shadow: 0 0 15px hsl(var(--accent));
+    transition: var(--transition-smooth);
+  }
+
+  /* Progress Bar Glow */
+  .progress-glow::-webkit-progress-value {
+    transition: all 1s ease;
+    box-shadow: 0 0 10px hsl(var(--accent));
+  }
+  .progress-glow::-moz-progress-bar {
+    transition: all 1s ease;
+    box-shadow: 0 0 10px hsl(var(--accent));
+  }
 }
 
+/* --- Utilities --- */
+@layer utilities {
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-400 { animation-delay: 400ms; }
+  .animation-delay-600 { animation-delay: 600ms; }
+}
+
+/* --- Keyframes --- */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 @keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
