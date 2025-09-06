@@ -1,63 +1,76 @@
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import profileImage from '@/assets/vidath-profile.jpg';
-import { useEffect, useRef } from 'react';
+import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import personImage from "@/assets/vidath-profile.jpg"; 
+import { motion } from "framer-motion";
 
 const HeroSection = () => {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const scrollToPortfolio = () => {
-    const element = document.querySelector('#portfolio');
-    if (element) element.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const stats = [
-    { value: '20+', label: 'Projects Completed' },
-    { value: '3+', label: 'Years Experience' },
-    { value: '10+', label: 'Technologies' },
-    { value: '100%', label: 'Client Satisfaction' },
+    { value: "4+", label: "Projects Completed" },
+    { value: "3+", label: "Years Experience" },
+    { value: "10+", label: "Technologies" },
+    { value: "100%", label: "Client Satisfaction" },
   ];
 
-  useEffect(() => {
-    const sections = document.querySelectorAll('.scroll-fade');
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-      },
-      { threshold: 0.2 }
-    );
-    sections.forEach((sec) => observer.observe(sec));
-  }, []);
+  const scrollToPortfolio = () => {
+    const element = document.querySelector("#portfolio");
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Animation variants
+  const container = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.2 } },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
 
   return (
     <section
       id="home"
-      className="min-h-screen hero-gradient flex items-center justify-center relative overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-        {/* Content */}
-        <div className="text-center lg:text-left">
-          <div className="fade-in-up scroll-fade">
-            <p className="text-accent-muted text-lg mb-4 tracking-wider">
-              Hello, I'm Vidath
-            </p>
-            <h1 className="text-5xl lg:text-7xl font-bold mb-6 leading-tight glow-hover">
-              <span className="text-gradient">Full-Stack</span>
-              <br />
-              <span className="text-accent">Developer</span>
-              <br />
-              <span className="text-accent-muted">& UI/UX Designer</span>
-            </h1>
-            <p className="text-accent-muted text-lg lg:text-xl mb-8 max-w-2xl leading-relaxed">
-              Computer Science undergraduate at SLIIT, passionate about building modern,
-              scalable, and interactive web applications that solve real-world problems.
-            </p>
-          </div>
+      {/* Right-half person image */}
+      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1/2 h-full pointer-events-none z-0">
+        <img
+          src={personImage}
+          alt="Vidath Theekshana"
+          className="w-full h-full object-contain object-right"
+        />
+      </div>
 
-          {/* Call-to-action Buttons */}
-          <div className="fade-in-up animation-delay-200 flex flex-col sm:flex-row items-center gap-4 mb-12 scroll-fade">
+      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+        {/* Text Content */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="visible"
+          className="text-center lg:text-left"
+        >
+          {/* Greeting */}
+          <motion.p variants={item} className="text-accent-muted text-lg mb-4 tracking-wider">
+            Hello, I’m <span className="font-semibold text-accent">Vidath Theekshana</span>
+          </motion.p>
+
+          {/* Heading */}
+          <motion.h1 variants={item} className="text-5xl lg:text-7xl font-bold mb-6 leading-tight">
+            <motion.span variants={item} className="text-gradient animate-gradient">Full-Stack</motion.span>
+            <br />
+            <motion.span variants={item} className="text-accent">Developer</motion.span>
+            <br />
+            <motion.span variants={item} className="text-accent-muted">& UI/UX Designer</motion.span>
+          </motion.h1>
+
+          {/* Description */}
+          <motion.p variants={item} className="text-accent-muted text-lg lg:text-xl mb-8 max-w-2xl leading-relaxed">
+            Computer Science undergraduate at SLIIT, passionate about building modern,
+            scalable, and interactive web applications that solve real-world problems.
+          </motion.p>
+
+          {/* Call-to-action */}
+          <motion.div variants={item} className="flex flex-col sm:flex-row items-center gap-4 mb-12">
             <Button
               onClick={scrollToPortfolio}
               size="lg"
@@ -78,52 +91,34 @@ const HeroSection = () => {
                 <Github className="w-5 h-5" />
               </a>
             </div>
-          </div>
+          </motion.div>
 
           {/* Stats */}
-          <div className="fade-in-up animation-delay-400 grid grid-cols-2 lg:grid-cols-4 gap-6 scroll-fade">
+          <motion.div
+            variants={container}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-2 lg:grid-cols-4 gap-6"
+          >
             {stats.map((stat, index) => (
-              <div key={index} className="text-center lg:text-left">
-                <div className="text-3xl lg:text-4xl font-bold text-accent mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-accent-muted text-sm tracking-wider">
-                  {stat.label}
-                </div>
-              </div>
+              <motion.div key={index} variants={item} className="text-center lg:text-left">
+                <div className="text-3xl lg:text-4xl font-bold text-accent mb-2">{stat.value}</div>
+                <div className="text-accent-muted text-sm tracking-wider">{stat.label}</div>
+              </motion.div>
             ))}
-          </div>
-        </div>
-
-        {/* Advanced Polygon Frame */}
-        <div className="fade-in-right animation-delay-200 flex justify-center lg:justify-end scroll-fade relative">
-          <div className="relative w-80 h-80 lg:w-96 lg:h-96">
-            {/* Background pattern */}
-            <div className="absolute inset-0">
-              <div className="w-full h-full bg-hexagon-pattern opacity-20 animate-breath"></div>
-            </div>
-
-            {/* Polygon / Advanced Frame */}
-            <div className="relative polygon-frame polygon-gradient animate-breath hover-glow overflow-hidden w-full h-full">
-              <img
-                src={profileImage}
-                alt="Vidath Theekshana"
-                className="w-full h-full object-cover object-center clip-polygon"
-              />
-              {/* Holo cinematic layers */}
-              <div className="holo-layer"></div>
-              <div className="holo-layer"></div>
-              {/* Wireframe overlay */}
-              <div className="polygon-wireframe"></div>
-            </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10"
+      >
         <ArrowDown className="w-6 h-6 text-accent-muted" />
-      </div>
+      </motion.div>
     </section>
   );
 };
