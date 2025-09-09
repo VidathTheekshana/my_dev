@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -43,6 +44,19 @@ const Navigation = () => {
     setIsMobileMenuOpen(false);
   };
 
+  // Framer Motion variants
+  const container = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: 0.1 },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: -10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -55,19 +69,23 @@ const Navigation = () => {
           <div className="text-2xl font-bold text-gradient">VT</div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
-                className={`nav-btn ${
-                  activeSection === item.href ? "active" : ""
-                }`}
+          <motion.div
+            className="hidden md:flex items-center space-x-4"
+            variants={container}
+            initial="hidden"
+            animate="visible"
+          >
+            {navItems.map((itemNav) => (
+              <motion.button
+                key={itemNav.href}
+                onClick={() => scrollToSection(itemNav.href)}
+                className={`nav-btn ${activeSection === itemNav.href ? "active" : ""}`}
+                variants={item}
               >
-                {item.label}
-              </button>
+                {itemNav.label}
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
 
           {/* Mobile Menu Button */}
           <button
@@ -80,19 +98,24 @@ const Navigation = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 py-4 glass-effect rounded-lg flex flex-col gap-2">
-            {navItems.map((item) => (
+          <motion.div
+            className="md:hidden mt-4 py-4 glass-effect rounded-lg flex flex-col gap-2"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            {navItems.map((itemNav) => (
               <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
+                key={itemNav.href}
+                onClick={() => scrollToSection(itemNav.href)}
                 className={`nav-btn-mobile ${
-                  activeSection === item.href ? "active" : ""
+                  activeSection === itemNav.href ? "active" : ""
                 }`}
               >
-                {item.label}
+                {itemNav.label}
               </button>
             ))}
-          </div>
+          </motion.div>
         )}
       </div>
     </nav>

@@ -1,6 +1,6 @@
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import personImage from "@/assets/vidath-profile.jpg"; 
+import personImage from "@/assets/vidaa.png"; 
 import { motion } from "framer-motion";
 
 const HeroSection = () => {
@@ -32,26 +32,31 @@ const HeroSection = () => {
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Right-half person image */}
-      <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1/2 h-full pointer-events-none z-0">
+      {/* Right-half hero image */}
+      <motion.div
+        className="absolute right-0 inset-y-0 flex items-center w-1/2 pointer-events-none z-0"
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      >
         <img
           src={personImage}
           alt="Vidath Theekshana"
-          className="w-full h-full object-contain object-right"
+          className="w-full h-auto object-contain object-right rounded-xl"
         />
-      </div>
+      </motion.div>
 
+      {/* Text Content */}
       <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-        {/* Text Content */}
         <motion.div
           variants={container}
           initial="hidden"
           animate="visible"
           className="text-center lg:text-left"
         >
-          {/* Greeting */}
+          {/* Typewriter Greeting */}
           <motion.p variants={item} className="text-accent-muted text-lg mb-4 tracking-wider">
-            Hello, I’m <span className="font-semibold text-accent">Vidath Theekshana</span>
+            <span className="typewriter-loop">Hello, I’m Vidath Theekshana</span>
           </motion.p>
 
           {/* Heading */}
@@ -79,18 +84,6 @@ const HeroSection = () => {
               View My Work
               <ArrowDown className="ml-2 w-5 h-5" />
             </Button>
-
-            <div className="flex items-center gap-4">
-              <a href="mailto:vidaththeekshana@gmail.com" className="icon-hover p-3 rounded-full border border-accent-subtle">
-                <Mail className="w-5 h-5" />
-              </a>
-              <a href="https://linkedin.com/in/vidath-theekshana" className="icon-hover p-3 rounded-full border border-accent-subtle">
-                <Linkedin className="w-5 h-5" />
-              </a>
-              <a href="https://github.com/vidaththeekshana" className="icon-hover p-3 rounded-full border border-accent-subtle">
-                <Github className="w-5 h-5" />
-              </a>
-            </div>
           </motion.div>
 
           {/* Stats */}
