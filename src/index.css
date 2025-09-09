@@ -73,6 +73,44 @@
     background-clip: text;
   }
 
+  /* --- Navbar Styles --- */
+
+.nav-btn {
+  @apply px-4 py-2 rounded-full font-medium text-sm transition-all duration-300;
+  background: black;
+  color: white;
+}
+
+.nav-btn:hover {
+  background: hsl(var(--accent));
+  color: black;
+  transform: translateY(-2px);
+}
+
+/* Active link state */
+.nav-btn.active {
+  background: hsl(var(--accent));
+  color: black;
+}
+
+/* Mobile nav buttons */
+.nav-btn-mobile {
+  @apply w-full px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300;
+  background: black;
+  color: white;
+}
+
+.nav-btn-mobile:hover {
+  background: hsl(var(--accent));
+  color: black;
+}
+
+.nav-btn-mobile.active {
+  background: hsl(var(--accent));
+  color: black;
+}
+
+
   /* Glass Effect */
   .glass-effect {
     backdrop-filter: blur(20px);

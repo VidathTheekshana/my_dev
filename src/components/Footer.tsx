@@ -47,7 +47,7 @@ const Footer = () => {
           {/* Copyright */}
           <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-accent-subtle">
             <div className="flex items-center gap-2 text-accent-muted text-sm mb-4 sm:mb-0">
-              <span>© 2024 Vidath Theekshana. </span>
+              <span>© 2025 Vidath Theekshana. </span>
             </div>
 
             {/* Back to top button */}
