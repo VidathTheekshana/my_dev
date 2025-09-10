@@ -27,7 +27,7 @@ const Footer = () => {
               { href: '#home', label: 'Home' },
               { href: '#about', label: 'About' },
               { href: '#skills', label: 'Skills' },
-              { href: '#portfolio', label: 'Portfolio' },
+              { href: '#portfolio', label: 'Projects' },
               { href: '#services', label: 'Services' },
               { href: '#contact', label: 'Contact' },
             ].map((link) => (
